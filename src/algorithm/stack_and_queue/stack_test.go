@@ -34,5 +34,16 @@ func TestNumSlice(t *testing.T) {
 	}
 }
 func TestMinStack(t *testing.T) {
-
+	stack := getMinStackInit()
+	for i := 0; i < 10; i++ {
+		stack.push(i)
+	}
+	fmt.Println(stack.min)
+	fmt.Println(stack.data)
+	for i := 0; i < 10; i++ {
+		s := stack.getMinValue()
+		j := stack.pop()
+		fmt.Println(j)
+		fmt.Println(s)
+	}
 }
