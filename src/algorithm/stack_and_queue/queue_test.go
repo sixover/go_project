@@ -14,4 +14,13 @@ func TestQueue(t *testing.T) {
 		j := getOneNodeFromTail(dl)
 		fmt.Println(j)
 	}
+
+	q := getQueue(10)
+	for i := 0; i < 10; i++ {
+		push(q, i)
+	}
+	for i := 0; i < 10; i++ {
+		j := pop(q)
+		fmt.Println(j)
+	}
 }
