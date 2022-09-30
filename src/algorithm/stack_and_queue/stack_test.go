@@ -47,3 +47,14 @@ func TestMinStack(t *testing.T) {
 		fmt.Println(s)
 	}
 }
+
+func TestStackUsingByQueue(t *testing.T) {
+	stack := getStackByQueue()
+	for i := 0; i < 10; i++ {
+		stack.push(i)
+	}
+	for i := 0; i < 10; i++ {
+		j := stack.pop()
+		fmt.Println(j)
+	}
+}
