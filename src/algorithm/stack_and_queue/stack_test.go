@@ -21,4 +21,14 @@ func TestStack(t *testing.T) {
 		j := getOneNodeFromTail(dl)
 		fmt.Println(j)
 	}
+
+	stack := getStackInit()
+	for i := 0; i < 10; i++ {
+		stack.push(i)
+	}
+	fmt.Println(stack.arr)
+	for i := 0; i < 10; i++ {
+		j := stack.pop()
+		fmt.Println(j)
+	}
 }
