@@ -1,4 +1,4 @@
-package single_string_node_reverse_test
+package linked_node_test
 
 import (
 	"fmt"
@@ -11,23 +11,33 @@ type Node struct {
 }
 
 func TestSingleNodeReverse(t *testing.T) {
-	node_test := &Node{
-		value: 3,
-		next: &Node{
-			value: 2,
-			next: &Node{
-				value: 1,
-				next:  nil,
-			},
-		},
+	head := &Node{
+		value: 1,
+		next:  nil,
 	}
-	res := SingleNodeReverse(node_test)
-	temp := res
-	for temp != nil {
-		fmt.Println(temp.value)
-		temp = temp.next
+	maxNum := 5
+	for i := maxNum; i > 1; i-- {
+		node := new(Node)
+		node.value = i
+		if head.next == nil {
+			head.next = node
+			continue
+		}
+		node.next = head.next
+		head.next = node
 	}
-	fmt.Println(res)
+	tempPrint := head
+	fmt.Println("this is origin double chain!")
+	for tempPrint != nil {
+		fmt.Println(tempPrint.value)
+		tempPrint = tempPrint.next
+	}
+	res := SingleNodeReverse(head)
+	fmt.Println("this is reverse double chain!")
+	for res != nil {
+		fmt.Println(res.value)
+		res = res.next
+	}
 }
 
 func SingleNodeReverse(head *Node) *Node {

@@ -1,4 +1,4 @@
-package single_string_node_reverse
+package linked_node_test
 
 import (
 	"fmt"
