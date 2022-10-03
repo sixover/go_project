@@ -24,3 +24,20 @@ func TestQueue(t *testing.T) {
 		fmt.Println(j)
 	}
 }
+func TestQueueByStack(t *testing.T) {
+	q := getQueueByStack()
+	for i := 0; i < 10; i++ {
+		q.push(i)
+	}
+	for i := 0; i < 6; i++ {
+		j := q.pop()
+		fmt.Println(j)
+	}
+	for i := 0; i < 10; i++ {
+		q.push(i)
+	}
+	for i := 0; i < 14; i++ {
+		j := q.pop()
+		fmt.Println(j)
+	}
+}
