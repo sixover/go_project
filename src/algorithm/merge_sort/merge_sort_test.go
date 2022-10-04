@@ -95,5 +95,31 @@ func mergeNonProcess(arr []int) {
 	if arr == nil || len(arr) < 2 {
 		return
 	}
-
+	N := len(arr)
+	//步长
+	mergeSize := 1
+	//如果步长大于N，则排序完成
+	for mergeSize < N {
+		L := 0
+		//如果第一轮L>N，那么一轮排序完成，需要调整步长
+		for L < N {
+			//首先确定每轮的左边一组，即L-M
+			Mid := L + mergeSize - 1
+			//如果Mid>=N，则左边一组缺省，或者无右边一组，跳出循环，这一轮排序结束
+			if Mid >= N {
+				break
+			}
+			//若是不缺省，则左边一组与右边一组进行merge，注意右边一组的边界
+			R := 0
+			if Mid+mergeSize < N-1 {
+				R = Mid + mergeSize
+			} else {
+				R = N - 1
+			}
+			merge2(arr, L, Mid, R)
+			//进行下一组的排序
+			L = R + 1
+		}
+		mergeSize *= 2
+	}
 }
