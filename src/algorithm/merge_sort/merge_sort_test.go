@@ -120,6 +120,11 @@ func mergeNonProcess(arr []int) {
 			//进行下一组的排序
 			L = R + 1
 		}
+		//这一步非常重要，当N非常接近int的最大值时，如果此时不跳出，等待执行mergeSize *= 2
+		//那么执行完毕后mergeSize可能会造成溢出，从而变成负数，则循环出错
+		if mergeSize > N/2 {
+			break
+		}
 		mergeSize *= 2
 	}
 }
