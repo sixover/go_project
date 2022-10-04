@@ -44,3 +44,11 @@ func TestRightSmallNum(t *testing.T) {
 	fmt.Println(res1)
 	fmt.Println(res2)
 }
+func TestRightSmallDoubleNum(t *testing.T) {
+	a := []int{7, 1, 3, 4}
+	res := findNumOfRightSmallerDoubleNum(a, 0, len(a)-1)
+	fmt.Println(res)
+	b := []int{7, 8, 1, 888, 54, 654, 3, 213, 1, 65, 487}
+	res = findNumOfRightSmallerDoubleNum(b, 0, 4)
+	fmt.Println(res)
+}
