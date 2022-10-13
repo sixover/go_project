@@ -52,3 +52,7 @@ func TestRightSmallDoubleNum(t *testing.T) {
 	res = findNumOfRightSmallerDoubleNum(b, 0, 4)
 	fmt.Println(res)
 }
+func TestCountOfRangeSum(t *testing.T) {
+	nums := []int{0, 0}
+	fmt.Println(countRangeSum(nums, 0, 0))
+}
