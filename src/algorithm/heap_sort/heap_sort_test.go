@@ -49,5 +49,7 @@ func TestHeapSort(t *testing.T) {
 }
 
 func TestMostOkSort(t *testing.T) {
-
+	a := []int{3, 4, 1, 2, 5}
+	sortedArrDistanceLessK(a, 2)
+	fmt.Println(a)
 }
