@@ -11,6 +11,9 @@ type ListNode struct {
 }
 
 func TestNormalSomething(t *testing.T) {
-	res := &ListNode{}
-	fmt.Println(res)
+	a := []int{1, 2, 3, 4}
+	fmt.Println(a)
+	b := a[:]
+	b[1] = 222
+	fmt.Println(a)
 }
