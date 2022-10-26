@@ -8,10 +8,10 @@ import (
 const (
 	NewConnection   = "New Connection\n"
 	KeepAlive       = "keep alive\n"
-	LocalHostAddr   = ":8080"
-	ControloerAddr  = ":8081"
-	TunnelAddr      = ":8082"
-	UserRequestAddr = ":8083"
+	LocalHostAddr   = "192.168.101.119:9090"
+	ControloerAddr  = "120.46.203.178:8081"
+	TunnelAddr      = "120.46.203.178:8082"
+	UserRequestAddr = "120.46.203.178:8083"
 )
 
 func CreateListener(addr string) (*net.TCPListener, error) {
