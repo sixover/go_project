@@ -1,4 +1,4 @@
-package NAT_penetration
+package test
 
 import (
 	"bufio"
@@ -124,7 +124,10 @@ func TestNAT(t *testing.T) {
 		}
 		break
 	}
-	tcpConn.Close()
+	err = tcpConn.Close()
+	if err != nil {
+		panic(err)
+	}
 }
 
 func TestUserClient(t *testing.T) {
