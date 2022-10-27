@@ -36,6 +36,7 @@ func messageFoward() {
 	}
 
 	go func() {
+		defer serverTcpConn.Close()
 		_, err := io.Copy(serverTcpConn, tunnelTcpConn)
 		if err != nil {
 			panic(err)

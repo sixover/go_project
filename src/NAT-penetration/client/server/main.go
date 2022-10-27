@@ -41,6 +41,7 @@ func tunnelListen() {
 			}
 		}()
 		go func() {
+			defer TcpConn.Close()
 			_, err := io.Copy(TcpConn, userTcpConn)
 			if err != nil {
 				panic(err)
