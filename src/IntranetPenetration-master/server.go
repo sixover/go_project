@@ -80,16 +80,15 @@ func (s *TRPServer) httpserver() {
 			log.Println(err)
 			conn.Close()
 			goto retry
-			return
 		}
 		err = s.read(w, conn)
 		if err != nil {
 			log.Println(err)
 			conn.Close()
 			goto retry
-			return
 		}
 		s.connList <- conn
+		//下面这一步没看懂
 		conn = nil
 	})
 	log.Fatalln(http.ListenAndServe(fmt.Sprintf(":%d", s.httpPort), nil))

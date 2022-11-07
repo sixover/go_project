@@ -1,0 +1,2 @@
+mysql:
+  dsn: pytest:123456@tcp(127.0.0.1:3306)/gin_chat?charset=utf8&parseTime=True&loc=Local

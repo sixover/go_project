@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"testing"
+	"time"
 )
 
 type ListNode struct {
@@ -11,9 +12,7 @@ type ListNode struct {
 }
 
 func TestNormalSomething(t *testing.T) {
-	a := []int{1, 2, 3, 4}
-	fmt.Println(a)
-	b := a[:]
-	b[1] = 222
-	fmt.Println(a)
+	for i := 0; i < 10; i++ {
+		fmt.Println(time.Now().Add(time.Duration(5) * time.Second))
+	}
 }
