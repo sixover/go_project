@@ -11,6 +11,24 @@ func GetUserList() []*models.UserBasic {
 	return data
 }
 
+func FindUserByName(name string) models.UserBasic {
+	user := models.UserBasic{}
+	DB.Where("name = ?", name).First(&user)
+	return user
+}
+
+func FindUserByPhone(phone string) models.UserBasic {
+	user := models.UserBasic{}
+	DB.Where("phone = ?", phone).First(&user)
+	return user
+}
+
+func FindUserByEmail(email string) models.UserBasic {
+	user := models.UserBasic{}
+	DB.Where("email = ?", email).First(&user)
+	return user
+}
+
 func CreateUser(user models.UserBasic) *gorm.DB {
 	return DB.Create(&user)
 }
@@ -37,5 +55,7 @@ func UpdateUser(user models.UserBasic) *gorm.DB {
 	return DB.Model(&user).Updates(models.UserBasic{
 		Name:     user.Name,
 		Password: user.Password,
+		Phone:    user.Phone,
+		Email:    user.Email,
 	})
 }
