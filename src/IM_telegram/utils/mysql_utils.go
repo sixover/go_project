@@ -1,8 +1,10 @@
 package utils
 
 import (
+	"fmt"
 	"go_project/src/IM_telegram/models"
 	"gorm.io/gorm"
+	"time"
 )
 
 func GetUserList() []*models.UserBasic {
@@ -26,6 +28,18 @@ func FindUserByPhone(phone string) models.UserBasic {
 func FindUserByEmail(email string) models.UserBasic {
 	user := models.UserBasic{}
 	DB.Where("email = ?", email).First(&user)
+	return user
+}
+
+func FindUserByNameAndPasswd(name, passwd string) models.UserBasic {
+	user := models.UserBasic{}
+	DB.Where("name = ? and password = ?", name, passwd).First(&user)
+
+	//简易token
+	seed := fmt.Sprintf("%d", time.Now().Unix())
+	userToken := MD5Encode(seed)
+	DB.Model(&user).Where("id = ?", user.ID).Update("identity", userToken)
+
 	return user
 }
 

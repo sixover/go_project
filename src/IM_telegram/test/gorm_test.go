@@ -14,7 +14,7 @@ func TestGorm(t *testing.T) {
 		panic("failed to connect database")
 	}
 
-	// 迁移 schema
+	//迁移 schema
 	//db.AutoMigrate(&models.UserBasic{})
 
 	// Create

@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go_project/src/IM_telegram/models"
 	"go_project/src/IM_telegram/utils"
+	"math/rand"
 	"strconv"
 	"time"
 )
@@ -53,28 +54,36 @@ func CreateUserHandler(c *gin.Context) {
 	repasswd := c.Query("repassword")
 	if passwd != repasswd {
 		c.JSON(200, gin.H{
+			"code":    -1, //0成功 -1失败
 			"message": "两次密码不一致",
+			"data":    nil,
 		})
 		return
 	}
 	sqlUser := utils.FindUserByName(user.Name)
 	if sqlUser.Name != "" {
 		c.JSON(200, gin.H{
+			"code":    -1, //0成功 -1失败
 			"message": "用户名已存在",
+			"data":    nil,
 		})
 		return
 	}
 	sqlUser = utils.FindUserByPhone(user.Phone)
 	if sqlUser.Name != "" {
 		c.JSON(200, gin.H{
+			"code":    -1, //0成功 -1失败
 			"message": "手机号码已注册",
+			"data":    nil,
 		})
 		return
 	}
 	sqlUser = utils.FindUserByEmail(user.Email)
 	if sqlUser.Name != "" {
 		c.JSON(200, gin.H{
+			"code":    -1, //0成功 -1失败
 			"message": "邮箱已注册",
+			"data":    nil,
 		})
 		return
 	}
@@ -82,14 +91,19 @@ func CreateUserHandler(c *gin.Context) {
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(200, gin.H{
+			"code":    -1, //0成功 -1失败
 			"message": "手机号码或邮箱格式不正确",
+			"data":    nil,
 		})
 		return
 	}
-	user.Password = passwd
+	user.Salt = fmt.Sprintf("%d", rand.Int31())
+	user.Password = utils.PassWdCrpyto(passwd, user.Salt)
 	utils.CreateUser(user)
 	c.JSON(200, gin.H{
+		"code":    0, //0成功 -1失败
 		"message": "新增用户成功!",
+		"data":    user,
 	})
 }
 
@@ -109,7 +123,9 @@ func DeleteUserHandler(c *gin.Context) {
 	user.ID = uint(id)
 	utils.DeleteUser(user)
 	c.JSON(200, gin.H{
+		"code":    0, //0成功 -1失败
 		"message": "用户删除成功!",
+		"data":    nil,
 	})
 }
 
@@ -137,13 +153,59 @@ func UpdateUserHandler(c *gin.Context) {
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(200, gin.H{
+			"code":    -1, //0成功 -1失败
 			"message": "用户修改失败!",
+			"data":    nil,
 		})
 	} else {
 		utils.UpdateUser(user)
 		c.JSON(200, gin.H{
+			"code":    0, //0成功 -1失败
 			"message": "用户修改成功!",
+			"data":    user,
 		})
 	}
+
+}
+
+// UserLoginHandler
+// @Summary 用户登录
+// @Description 用户登录
+// @Tags 用户模块
+// @param name formData string false "用户名"
+// @param password formData string false "密码"
+// @Success 200 {string} json{"code","message"}
+// @Router /user/login [post]
+func UserLoginHandler(c *gin.Context) {
+
+	name := c.PostForm("name")
+	password := c.PostForm("password")
+
+	sqlUserFindByName := utils.FindUserByName(name)
+	if sqlUserFindByName.Name == "" {
+		c.JSON(200, gin.H{
+			"code":    -1, //0成功 -1失败
+			"message": "用户名不正确!",
+			"data":    nil,
+		})
+		return
+	}
+
+	flag := utils.ValidPassWd(password, sqlUserFindByName.Salt, sqlUserFindByName.Password)
+	if !flag {
+		c.JSON(200, gin.H{
+			"code":    -1, //0成功 -1失败
+			"message": "密码错误",
+			"data":    nil,
+		})
+		return
+	}
+
+	sqlUserFindByNameAndPasswd := utils.FindUserByNameAndPasswd(name, sqlUserFindByName.Password)
+	c.JSON(200, gin.H{
+		"code":    0, //0成功 -1失败
+		"message": "登录成功",
+		"data":    sqlUserFindByNameAndPasswd,
+	})
 
 }
