@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"github.com/go-redis/redis/v8"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -12,6 +13,7 @@ import (
 )
 
 var DB *gorm.DB
+var RedisForIM *redis.Client
 
 func InitConfig() {
 	viper.SetConfigName("init")
@@ -38,4 +40,14 @@ func InitMysql() {
 	if err != nil {
 		return
 	}
+}
+
+func InitRedis() {
+	RedisForIM = redis.NewClient(&redis.Options{
+		Addr:         viper.GetString("redis.addr"),
+		Password:     viper.GetString("redis.password"),
+		DB:           viper.GetInt("redis.DB"),
+		PoolSize:     viper.GetInt("redis.poolSize"),
+		MinIdleConns: viper.GetInt("redis.minIdleConn"),
+	})
 }

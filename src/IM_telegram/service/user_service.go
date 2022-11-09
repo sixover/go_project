@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
 	"go_project/src/IM_telegram/models"
 	"go_project/src/IM_telegram/utils"
 	"math/rand"
+	"net/http"
 	"strconv"
 	"time"
 )
@@ -207,5 +209,47 @@ func UserLoginHandler(c *gin.Context) {
 		"message": "登录成功",
 		"data":    sqlUserFindByNameAndPasswd,
 	})
+}
 
+var upGrade = websocket.Upgrader{
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
+}
+
+func SendMsgHandler(c *gin.Context) {
+	conn, err := upGrade.Upgrade(c.Writer, c.Request, nil)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer func(conn *websocket.Conn) {
+		err := conn.Close()
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+	}(conn)
+	MsgHandler(conn, c)
+}
+
+func MsgHandler(conn *websocket.Conn, c *gin.Context) {
+	for {
+		subscribe, err := utils.Subscribe(c, utils.PublishKey)
+		if err != nil {
+			return
+		}
+		tm := time.Now().Format("2006-01-02 15:04:05")
+		msg := fmt.Sprintf("[ws][%s]:%s", tm, subscribe)
+		err = conn.WriteMessage(1, []byte(msg))
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+	}
+
+}
+
+func SendUserMesg(c *gin.Context) {
+	models.Chat(c.Writer, c.Request)
 }
