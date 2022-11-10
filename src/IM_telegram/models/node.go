@@ -183,9 +183,9 @@ func dispatch(data []byte) {
 }
 
 func sendMesg(receverId uint, mesg []byte) {
-	rwLocker.Lock()
+	rwLocker.RLock()
 	node, ok := clientMap[receverId]
-	rwLocker.Unlock()
+	rwLocker.RUnlock()
 	if ok {
 		node.DataQueue <- mesg
 	}

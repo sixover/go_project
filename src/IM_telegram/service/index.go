@@ -1,18 +1,30 @@
 package service
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"text/template"
+)
 
 // GetIndex
 // @Summary index example
-// @Schemes
 // @Description visit index
 // @Tags 首页
-// @Accept json
-// @Produce json
 // @Success 200 {string} Welcome
 // @Router /index [get]
 func GetIndex(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"message": "welcome",
-	})
+	files, err := template.ParseFiles("src\\IM_telegram\\index.html")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	err = files.Execute(c.Writer, "src\\IM_telegram\\index")
+	if err != nil {
+		fmt.Print(err)
+		return
+	}
+
+	//c.JSON(200, gin.H{
+	//	"message": "welcome",
+	//})
 }

@@ -211,6 +211,7 @@ func UserLoginHandler(c *gin.Context) {
 	})
 }
 
+//防止跨域站点伪造请求
 var upGrade = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		return true

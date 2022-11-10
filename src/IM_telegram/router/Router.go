@@ -9,11 +9,18 @@ import (
 )
 
 func Router() *gin.Engine {
+
 	router := gin.Default()
+
 	docs.SwaggerInfo.BasePath = ""
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
+	router.Static("/asset", "src\\IM_telegram\\asset\\")
+	router.LoadHTMLGlob("src\\IM_telegram\\views\\**\\*")
+
+	router.GET("/", service.GetIndex)
 	router.GET("/index", service.GetIndex)
+
 	router.GET("/user/getuserlist", service.UserListHandler)
 	router.GET("/user/createuser", service.CreateUserHandler)
 	router.GET("/user/deleteuser", service.DeleteUserHandler)
