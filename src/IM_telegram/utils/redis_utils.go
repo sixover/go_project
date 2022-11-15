@@ -18,8 +18,8 @@ func Publish(ctx context.Context, channel string, mesg string) error {
 
 func Subscribe(ctx context.Context, channel string) (string, error) {
 	sub := RedisForIM.Subscribe(ctx, channel)
-	fmt.Println("subscribe .....", ctx)
+	fmt.Println("subscribe .....ctx ", ctx)
 	msg, err := sub.ReceiveMessage(ctx)
-	fmt.Println("subscribe .....", msg.Payload)
+	fmt.Println("subscribe .....msg.payload ", msg.Payload)
 	return msg.Payload, err
 }

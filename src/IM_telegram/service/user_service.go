@@ -31,29 +31,34 @@ func UserListHandler(c *gin.Context) {
 
 // CreateUserHandler
 // @Summary 创建用户
-// @Schemes
 // @Description 创建一个新用户
 // @Tags 用户模块
-// @Accept json
-// @Produce json
-// @param name query string false "用户名"
-// @param phone query string false "绑定手机号"
-// @param email query string false "注册邮箱"
-// @param password query string false "密码"
-// @param repassword query string false "确认密码"
+// @param name formData string false "用户名"
+// @param phone formData string false "绑定手机号"
+// @param email formData string false "注册邮箱"
+// @param password formData string false "密码"
+// @param repassword formData string false "确认密码"
 // @Success 200 {string} json{"code","message"}
-// @Router /user/createuser [get]
+// @Router /user/createuser [post]
 func CreateUserHandler(c *gin.Context) {
 	user := models.UserBasic{
 		LoginTime:    time.Now(),
 		LoginOutTime: time.Now(),
 		HeatBeatTime: time.Now(),
 	}
-	user.Name = c.Query("name")
-	user.Phone = c.Query("phone")
-	user.Email = c.Query("email")
-	passwd := c.Query("password")
-	repasswd := c.Query("repassword")
+	user.Name = c.PostForm("name")
+	//user.Phone = c.PostForm("phone")
+	//user.Email = c.PostForm("email")
+	passwd := c.PostForm("password")
+	repasswd := c.PostForm("repasswd")
+	if user.Name == "" || passwd == "" || repasswd == "" {
+		c.JSON(200, gin.H{
+			"code":    -1, //0成功 -1失败
+			"message": "用户名或密码不能为空",
+			"data":    nil,
+		})
+		return
+	}
 	if passwd != repasswd {
 		c.JSON(200, gin.H{
 			"code":    -1, //0成功 -1失败
@@ -71,34 +76,37 @@ func CreateUserHandler(c *gin.Context) {
 		})
 		return
 	}
-	sqlUser = utils.FindUserByPhone(user.Phone)
-	if sqlUser.Name != "" {
-		c.JSON(200, gin.H{
-			"code":    -1, //0成功 -1失败
-			"message": "手机号码已注册",
-			"data":    nil,
-		})
-		return
-	}
-	sqlUser = utils.FindUserByEmail(user.Email)
-	if sqlUser.Name != "" {
-		c.JSON(200, gin.H{
-			"code":    -1, //0成功 -1失败
-			"message": "邮箱已注册",
-			"data":    nil,
-		})
-		return
-	}
-	_, err := govalidator.ValidateStruct(user)
-	if err != nil {
-		fmt.Println(err)
-		c.JSON(200, gin.H{
-			"code":    -1, //0成功 -1失败
-			"message": "手机号码或邮箱格式不正确",
-			"data":    nil,
-		})
-		return
-	}
+
+	//sqlUser = utils.FindUserByPhone(user.Phone)
+	//if sqlUser.Name != "" {
+	//	c.JSON(200, gin.H{
+	//		"code":    -1, //0成功 -1失败
+	//		"message": "手机号码已注册",
+	//		"data":    nil,
+	//	})
+	//	return
+	//}
+	//sqlUser = utils.FindUserByEmail(user.Email)
+	//if sqlUser.Name != "" {
+	//	c.JSON(200, gin.H{
+	//		"code":    -1, //0成功 -1失败
+	//		"message": "邮箱已注册",
+	//		"data":    nil,
+	//	})
+	//	return
+	//}
+
+	//_, err := govalidator.ValidateStruct(user)
+	//if err != nil {
+	//	fmt.Println(err)
+	//	c.JSON(200, gin.H{
+	//		"code":    -1, //0成功 -1失败
+	//		"message": "手机号码或邮箱格式不正确",
+	//		"data":    nil,
+	//	})
+	//	return
+	//}
+
 	user.Salt = fmt.Sprintf("%d", rand.Int31())
 	user.Password = utils.PassWdCrpyto(passwd, user.Salt)
 	utils.CreateUser(user)
@@ -111,17 +119,14 @@ func CreateUserHandler(c *gin.Context) {
 
 // DeleteUserHandler
 // @Summary 删除用户
-// @Schemes
 // @Description 删除一个用户
 // @Tags 用户模块
-// @Accept json
-// @Produce json
-// @param id query string false "ID"
+// @param id formData string false "ID"
 // @Success 200 {string} json{"code","message"}
-// @Router /user/deleteuser [get]
+// @Router /user/deleteuser [post]
 func DeleteUserHandler(c *gin.Context) {
 	user := models.UserBasic{}
-	id, _ := strconv.Atoi(c.Query("id"))
+	id, _ := strconv.Atoi(c.PostForm("id"))
 	user.ID = uint(id)
 	utils.DeleteUser(user)
 	c.JSON(200, gin.H{
@@ -242,6 +247,7 @@ func MsgHandler(conn *websocket.Conn, c *gin.Context) {
 		}
 		tm := time.Now().Format("2006-01-02 15:04:05")
 		msg := fmt.Sprintf("[ws][%s]:%s", tm, subscribe)
+		fmt.Println(msg)
 		err = conn.WriteMessage(1, []byte(msg))
 		if err != nil {
 			fmt.Println(err)

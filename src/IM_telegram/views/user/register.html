@@ -26,7 +26,7 @@
                 <input v-model="user.password" placeholder="请输入密码" type="password" class="mui-input-clear mui-input">
             </div>
             <div class="mui-input-row">
-                <input v-model="user.Identity" placeholder="再输入密码" type="password" class="mui-input-clear mui-input">
+                <input v-model="user.repasswd" placeholder="再输入密码" type="password" class="mui-input-clear mui-input">
             </div>
         </form>
         <div class="mui-content-padded">
@@ -49,7 +49,7 @@
                 user: {
                     name: "",
                     password: "",
-                    Identity: "",
+                    repasswd: "",
                 }
             }
         },
@@ -59,7 +59,7 @@
                 console.log(this.user)
                 //网络请求
                 //封装了promis
-                util.post("/user/createUser", this.user).then(res => {
+                util.post("/user/createuser", this.user).then(res => {
                     console.log(res)
                     if (res.code != 0) {
                         mui.toast(res.message)

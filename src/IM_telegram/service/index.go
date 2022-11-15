@@ -13,12 +13,12 @@ import (
 // @Success 200 {string} Welcome
 // @Router /index [get]
 func GetIndex(c *gin.Context) {
-	files, err := template.ParseFiles("src\\IM_telegram\\index.html")
+	files, err := template.ParseFiles("src\\IM_telegram\\index.html", "src\\IM_telegram\\views\\chat\\head.html")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	err = files.Execute(c.Writer, "src\\IM_telegram\\index")
+	err = files.Execute(c.Writer, "index")
 	if err != nil {
 		fmt.Print(err)
 		return
@@ -27,4 +27,17 @@ func GetIndex(c *gin.Context) {
 	//c.JSON(200, gin.H{
 	//	"message": "welcome",
 	//})
+}
+
+func ToRegister(c *gin.Context) {
+	files, err := template.ParseFiles("src\\IM_telegram\\views\\user\\register.html")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	err = files.Execute(c.Writer, "index")
+	if err != nil {
+		fmt.Print(err)
+		return
+	}
 }

@@ -1,2 +1,0 @@
-<!--    js include-->
-<!--    {{template "/chat/head.shtml"}}-->
