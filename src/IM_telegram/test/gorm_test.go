@@ -1,11 +1,19 @@
 package test
 
 import (
-	"go_project/src/IM_telegram/models"
+	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"testing"
 )
+
+type Community struct {
+	gorm.Model
+	Name    string
+	OwnerId uint
+	Img     string
+	Desc    string
+}
 
 func TestGorm(t *testing.T) {
 	db, err := gorm.Open(mysql.Open("pytest:123456@tcp(127.0.0.1:3306)/gin_chat?charset=utf8&parseTime=True&loc=Local"), &gorm.Config{})
@@ -14,24 +22,43 @@ func TestGorm(t *testing.T) {
 	}
 
 	//迁移 schema
-	db.AutoMigrate(&models.UserBasic{})
-	db.AutoMigrate(models.Message{})
-	db.AutoMigrate(models.Contact{})
-	db.AutoMigrate(models.GroupBasic{})
+	//err = db.AutoMigrate(Community{})
+	//if err != nil {
+	//	t.Log(err)
+	//}
 
 	// Create
-	//oneUser := &models.UserBasic{
-	//	Name:         "刘一豆",
-	//	LoginTime:    time.Now(),
-	//	LoginOutTime: time.Now(),
-	//	HeatBeatTime: time.Now(),
+	//Comms:=[]Community{
+	//	{Name: "okkil"},
+	//	{Name: "Yossig"},
+	//	{Name: "oossig"},
 	//}
-	//db.Create(oneUser)
+	//db.Create(&Comms)
+	//for _,comm :=range Comms{
+	//	fmt.Println(comm.ID)
+	//}
+	//db.Create(oneComm)
+	//db.Select("Name").Create(oneComm)
+	//db.Omit("OwnerId","ID").Create(oneComm)
+	//db.Model(&Community{}).Create([]map[string]interface{}{
+	//	{"Name": "Okkil"},
+	//	{"Name": "yossig"},
+	//	{"Name": "oosig"},
+	//})
 
 	// Read
-	//var product Product
-	//db.First(oneUser, 1) // 根据整型主键查找
-	//db.First(&product, "code = ?", "D42") // 查找 code 字段值为 D42 的记录
+	//conn:=&Community{Name: "aaaaa"}
+	//db.First(conn)
+	//fmt.Println(conn)
+	//conn=&Community{Name: "aaaaa"}
+	//db.Last(conn)
+	//fmt.Println(conn)
+	//conn=&Community{Name: "aaaaa"}
+	//db.Take(conn)
+	//fmt.Println(conn)
+	var conn []Community
+	db.Where("name = ?", "aaaaa").Find(&conn)
+	fmt.Println(conn)
 
 	// Update - 将 product 的 price 更新为 200
 	//db.Model(oneUser).Update("Password", "14523")
