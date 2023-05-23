@@ -27,3 +27,30 @@ func heapAdjust(arr []int, index, size int) {
 		left = index*2 + 1
 	}
 }
+
+func heapIn(arr []int, index int) {
+	for index >= 0 {
+		if arr[index] <= arr[(index-1)/2] {
+			break
+		}
+		arr[index], arr[(index-1)/2] = arr[(index-1)/2], arr[index]
+		index = (index - 1) / 2
+	}
+}
+func adjs(arr []int, index, size int) {
+	left := index*2 + 1
+	for left < size {
+		large := left
+		if left+1 < size {
+			if arr[left] < arr[left+1] {
+				large = left + 1
+			}
+		}
+		if arr[index] > arr[large] {
+			break
+		}
+		arr[index], arr[large] = arr[large], arr[index]
+		index = large
+		left = index*2 + 1
+	}
+}

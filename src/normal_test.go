@@ -1,20 +1,23 @@
 package main
 
 import (
+	"fmt"
 	"testing"
 )
 
-type ListNode struct {
-	Val  int
-	Next *ListNode
+type Student struct {
+	name string
+}
+
+type printer interface {
+	Pa()
+}
+
+func (n *Student) Pa() {
+	fmt.Println(n.name)
 }
 
 func TestNormalSomething(t *testing.T) {
-	count := 0
-	maxNum := 101
-	for maxNum != 0 {
-		maxNum = maxNum / 10
-		count++
-	}
-	t.Log(count)
+	var a printer = &Student{"asd"}
+	a.Pa()
 }

@@ -6,28 +6,34 @@ import (
 )
 
 func TestGuoQi(t *testing.T) {
-	arr := []int{1, 234, 1, 235, 3, 452, 34}
-	fmt.Println(flagSimpleSort(arr, 7))
-	arr = []int{1, 234, 7, 1, 235, 7, 3, 452, 34}
-	fmt.Println(flagComplexSort(arr, 7))
-	arr = []int{1, 4, 2, 3, 3}
+	//arr := []int{1, 234, 1, 235, 3, 452, 34}
+	//fmt.Println(flagSimpleSort(arr, 7))
+	//arr = []int{1, 234, 7, 1, 235, 7, 3, 452, 34}
+	//fmt.Println(flagComplexSort(arr, 7))
+	//arr = []int{1, 4, 2, 3, 3}
+	//quickSort(arr)
+	//fmt.Println(arr)
+	//arr = []int{1, 234, 1, 235, 3, 452, 34}
+	//quickSort(arr)
+	//fmt.Println(arr)
+	arr := []int{1, 234, 7, 1, 235, 7, 3, 452, 34}
 	quickSort(arr)
 	fmt.Println(arr)
-	arr = []int{1, 234, 1, 235, 3, 452, 34}
-	quickSort(arr)
-	fmt.Println(arr)
 	arr = []int{1, 234, 7, 1, 235, 7, 3, 452, 34}
-	quickSort(arr)
+	res := quickStart(arr)
+	fmt.Println(res)
+	arr = []int{1, 234, 7, 1, 235, 7, 3, 452, 34}
+	qui(arr)
 	fmt.Println(arr)
 
-	arr = []int{1, 4, 2, 3, 3}
-	quickSortNoneRecursion(arr)
-	fmt.Println(arr)
-	arr = []int{1, 234, 1, 235, 3, 452, 34}
-	quickSortNoneRecursion(arr)
-	fmt.Println(arr)
-	arr = []int{1, 234, 7, 1, 235, 7, 3, 452, 34}
-	quickSortNoneRecursion(arr)
-	fmt.Println(arr)
+	//arr = []int{1, 4, 2, 3, 3}
+	//quickSortNoneRecursion(arr)
+	//fmt.Println(arr)
+	//arr = []int{1, 234, 1, 235, 3, 452, 34}
+	//quickSortNoneRecursion(arr)
+	//fmt.Println(arr)
+	//arr = []int{1, 234, 7, 1, 235, 7, 3, 452, 34}
+	//quickSortNoneRecursion(arr)
+	//fmt.Println(arr)
 
 }

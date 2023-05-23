@@ -15,6 +15,9 @@ func TestMergeSort(t *testing.T) {
 	d := []int{7, 8, 1, 888, 54, 654, 3, 213, 1, 65, 487}
 	mergeNonProcess(d)
 	fmt.Println(d)
+	e := []int{7, 8, 1, 888, 54, 654, 3, 213, 1, 65, 487}
+	f := mergedigui(e, 0, len(e)-1)
+	fmt.Println(f)
 }
 
 func TestSmallSum(t *testing.T) {

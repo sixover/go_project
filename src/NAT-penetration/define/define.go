@@ -1,6 +1,7 @@
 package define
 
 import (
+	"log"
 	"net"
 	"time"
 )
@@ -50,6 +51,11 @@ func KeepAliveService(conn *net.TCPConn) {
 func GetDataFromTcp(bufferSize int, tcpConn *net.TCPConn) ([]byte, error) {
 	respFromServer := make([]byte, 0)
 	for {
+		err := tcpConn.SetReadDeadline(time.Now().Add(time.Second * 7)) // timeout
+		if err != nil {
+			log.Println("setReadDeadline failed:", err)
+			return respFromServer, err
+		}
 		buffer := make([]byte, bufferSize)
 		n, err := tcpConn.Read(buffer)
 		if err != nil {

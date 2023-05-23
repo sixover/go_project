@@ -135,6 +135,8 @@ func TestUserClient(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
+	t.Log("tcp conn create!")
+	time.Sleep(time.Second * 100)
 	_, err = tcpConn.Write([]byte("i am net package\n"))
 	if err != nil {
 		panic(err)

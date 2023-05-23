@@ -1,5 +1,43 @@
 package merge_sort
 
+func mergedigui(arr []int, l, r int) []int {
+	if l == r {
+		return []int{arr[l]}
+	}
+	mid := l + (r-l)/2
+	left := mergedigui(arr, l, mid)
+	right := mergedigui(arr, mid+1, r)
+	ret := mergeing(left, right)
+	return ret
+}
+func mergeing(left []int, right []int) []int {
+	index := 0
+	l := 0
+	r := 0
+	ret := make([]int, len(left)+len(right))
+	for l < len(left) && r < len(right) {
+		if left[l] < right[r] {
+			ret[index] = left[l]
+			l++
+		} else {
+			ret[index] = right[r]
+			r++
+		}
+		index++
+	}
+	for l < len(left) {
+		ret[index] = left[l]
+		l++
+		index++
+	}
+	for r < len(right) {
+		ret[index] = right[r]
+		r++
+		index++
+	}
+	return ret
+}
+
 func mergeProcess1(arr []int, l, r int) []int {
 	if l == r {
 		return []int{arr[l]}

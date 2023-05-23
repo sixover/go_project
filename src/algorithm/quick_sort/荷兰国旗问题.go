@@ -34,6 +34,17 @@ func flagSimpleSort(arr []int, x int) []int {
 	return arr
 }
 
+func itsTest(arr []int, x int) []int {
+	index := -1
+	for i := 0; i < len(arr); i++ {
+		if arr[i] <= x {
+			arr[index+1], arr[i] = arr[i], arr[index+1]
+			index++
+		}
+	}
+	return arr
+}
+
 /*
 荷兰国旗问题2：
 即给一个无序的数组分组，给定一个数X，将数组分为，左边是小于X的数，中间是等于X的数，右边是大于X的数
@@ -82,6 +93,25 @@ func flagComplexSort(arr []int, x int) []int {
 		} else {
 			swap(arr, index, rightIndex-1)
 			rightIndex--
+		}
+	}
+	return arr
+}
+
+func flag2QS(arr []int, x int) []int {
+	left := -1
+	right := len(arr)
+	index := 0
+	for index < right {
+		if arr[index] < x {
+			arr[left+1], arr[index] = arr[index], arr[left+1]
+			left++
+			index++
+		} else if arr[index] == x {
+			index++
+		} else {
+			arr[right-1], arr[index] = arr[index], arr[right-1]
+			right--
 		}
 	}
 	return arr
