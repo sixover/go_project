@@ -1,4 +1,4 @@
-package main
+package structs
 
 type AddParam struct {
 	X int `json:"x"`
